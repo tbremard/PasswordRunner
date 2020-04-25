@@ -24,3 +24,16 @@ for i in range(1, 100):
     spamwriter.writerow([i, duration])
     csvfile.flush()
 csvfile.close()
+
+#result of simulation:
+#nbProcessors,ExecutionTimeSec
+#1,30
+#2,21
+#3,21  <<<<<<<<<<<<<<<<<
+#4,23
+#5,25
+#6,27
+#7,28
+#8,29
+#9,29
+#10,29
