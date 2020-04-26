@@ -24,6 +24,10 @@ namespace Runner.UnitTest
         [TestCase("aaaaa", "aaaab")]
         [TestCase("aaaaz", "aaaba")]
         [TestCase("azzzz", "baaaa")]
+        [TestCase("zzzzz", "aaaaaa")]
+        [TestCase("aaaaaaaaa", "aaaaaaaab")]
+        [TestCase("bateau", "bateav")]
+        [TestCase("zzzzzzzzzzzzzzzzzzzzzzzzzzzz", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")]
         public void GetNextPassword_WhenCurrentValueIsSet_ThenValid(string initialValue, string expectedValue)
         {
             _sut.CurrentValue = initialValue;
@@ -32,6 +36,5 @@ namespace Runner.UnitTest
 
             Assert.AreEqual(expectedValue, ret);
         }
-
     }
 }

@@ -6,8 +6,12 @@ namespace Runner
 {
     public class AlphabeticalLowerProducer : IPasswordProducer
     {
-        long counter = 0;
+        protected char[] charset ={'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+                                   'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                                   's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
         string _currentValue = "aaa";
+
+        long counter = 0;
         public long CounterValue
         {
             get => counter;
@@ -23,55 +27,84 @@ namespace Runner
             set
             {
                 _currentValue = value;
-                _current_length = _currentValue.Length;
-                List<char> charsetList = charset.ToList();
-                indexes = new int[_current_length];
-                int i = 0;
-                foreach (char c in _currentValue)
-                {
-                    int index = charsetList.IndexOf(c);
-                    indexes[i] = index;
-                    i++;
-                }
+                SetLength(_currentValue.Length);
+                UpdateIndexes();
             }
         }
-        protected char[] charset ={'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                                   'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                                   's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+        private void UpdateIndexes()
+        {
+            List<char> charsetList = charset.ToList();
+            int i = 0;
+            foreach (char c in _currentValue)
+            {
+                int index = charsetList.IndexOf(c);
+                indexes[i] = index;
+                i++;
+            }
+        }
+
+        private void SetLength(int len)
+        {
+            _current_length = len;
+            indexes = new int[_current_length];
+        }
+
+        private void ResetIndexes()
+        {
+            for (int i = 0; i < _current_length; i++)
+            {
+                indexes[i] = 0;
+            }
+        }
 
         public string GetNextPassword()
         {
             IncrementCounters();
+            UpdateCurrentValue();
+            counter++;
+            return _currentValue;
+        }
+
+        private void UpdateCurrentValue()
+        {
             char[] chars = new char[indexes.Length];
-            for(int i=0; i<indexes.Length; i++)
+            for (int i = 0; i < indexes.Length; i++)
             {
                 int j = indexes[i];
                 chars[i] = charset[j];
             }
-            string ret = new string(chars);
-            counter++;
-            return ret;
+            _currentValue = new string(chars);
         }
 
         private void IncrementCounters()
         {
             int i = indexes.Length - 1;
-            bool raiseNext = true;
-            while (i >= 0 && raiseNext)
+            bool carryFlag = true;
+            bool overflowFlag = false;
+            while (i >= 0 && carryFlag)
             {
                 if (indexes[i] == charset.Length - 1)
                 {
                     indexes[i] = 0;
                     i--;
-                    raiseNext = true;
+                    carryFlag = true;
+                    if(i==-1)
+                    {
+                        overflowFlag = true;
+                    }
                 }
                 else
                 {
                     indexes[i]++;
-                    raiseNext = false;
+                    carryFlag = false;
                 }
+            }
+            if(overflowFlag)
+            {
+                SetLength(_current_length + 1);
+                ResetIndexes();
             }
         }
     }
-
 }
