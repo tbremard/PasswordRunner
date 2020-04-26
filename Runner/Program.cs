@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Password Runner
+// Thierry Brémard
+// 2020-04-26
+
+using System;
 
 namespace Runner
 {
@@ -10,7 +14,7 @@ namespace Runner
         {
             defaultColor = Console.ForegroundColor;
             var provider = new IncrementalNumberProducer();
-            int nbProcessors = int.Parse(argv[0]);
+            int nbProcessors = LoadConfiguration(argv);
             var runner = new PasswordRunner(nbProcessors);
             Console.WriteLine("Start run with {0} processors", nbProcessors);
             string password = runner.Run(provider);
@@ -27,6 +31,20 @@ namespace Runner
                 ResetForegroundColor();
             }
             //            Console.ReadKey();
+        }
+
+        private static int LoadConfiguration(string[] argv)
+        {
+            int ret;
+            try
+            {
+                ret = int.Parse(argv[0]);
+            }
+            catch
+            {
+                ret = Environment.ProcessorCount;
+            }
+            return ret;
         }
 
         private static void SetForegroundColor(ConsoleColor color)

@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using Ionic.Zlib;
+using System.Linq;
 
 namespace Runner
 {
@@ -14,7 +15,7 @@ namespace Runner
         string directory = "d:\\zip_test\\";
         string zipPath;
         string extractPath = "d:\\zip_test\\extracted\\";
-        MemoryMappedFile mmf;
+        MemoryMappedFile _mappedFile;
 
         public ZipPasswordValidator()
         {
@@ -22,6 +23,11 @@ namespace Runner
             zipPath = Path.Combine(directory, file);
             MapFile(zipPath);
             ClearDirectory(extractPath);
+        }
+
+        private void MapFile(string filePath)
+        {
+            _mappedFile = MemoryMappedFile.CreateFromFile(filePath, FileMode.Open);
         }
 
         private void ClearDirectory(string path)
@@ -41,8 +47,6 @@ namespace Runner
 //            return IsValidPasswordInDisk(password);
         }
 
-        // time: 19.62 for '1000' in debug
-        // time: 1 sec for '1000' in release
         public bool IsValidPasswordInDisk(string password)
         {
             bool ret = true;
@@ -70,40 +74,45 @@ namespace Runner
             return ret;
         }
 
-        //18   sec for '1000' in 'debug'
-        //0.77 sec for '1000' in 'release'
         public bool IsValidPasswordInMemory(string password)
         {
             Stream zipStream;
             zipStream = CreateMemoryStream();
             zipStream.Position = 0;
-            bool ret = true;
+            bool ret;
             using (ZipFile z = ZipFile.Read(zipStream))
             {
-                foreach (ZipEntry zEntry in z)
-                {
-                    MemoryStream tempS = new MemoryStream();
-                    try
-                    {
-                        zEntry.ExtractWithPassword(tempS, password);
-                    }
-                    catch(BadPasswordException)
-                    {
-                        ret = false;
-                    }
-                    catch(BadCrcException)
-                    {
-                        ret = false;
-                    }
-                    catch(BadReadException)
-                    {
-                        ret = false;
-                    }
-                    catch (Exception)
-                    {
-                        ret = false;
-                    }
-                }
+                ZipEntry zEntry = z.Entries.Where(x => x.UsesEncryption).First();
+                MemoryStream tempS = new MemoryStream();
+                ret = TryExtract(password, zEntry, tempS);
+            }
+            zipStream.Dispose();
+            return ret;
+        }
+
+        private static bool TryExtract(string password, ZipEntry zEntry, MemoryStream tempS)
+        {
+            bool ret = true;
+
+            try
+            {
+                zEntry.ExtractWithPassword(tempS, password);
+            }
+            catch (BadPasswordException)
+            {
+                ret = false;
+            }
+            catch (BadCrcException)
+            {
+                ret = false;
+            }
+            catch (BadReadException)
+            {
+                ret = false;
+            }
+            catch (Exception)
+            {
+                ret = false;
             }
             return ret;
         }
@@ -111,16 +120,11 @@ namespace Runner
         private Stream CreateMemoryStream()
         {
             MemoryMappedViewStream stream;
-            lock (mmf)
+            lock (_mappedFile)
             {
-                stream = mmf.CreateViewStream();
+                stream = _mappedFile.CreateViewStream();
             }
             return stream;
-        }
-
-        private void  MapFile(string filePath)
-        {
-            mmf = MemoryMappedFile.CreateFromFile(filePath, FileMode.Open);
         }
     }
 }

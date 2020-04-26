@@ -5,10 +5,11 @@ namespace Runner
 {
     public class PasswordRunner
     {
-        int _nbProcessors;
+        readonly ExecutionMachine machine;
+
         public PasswordRunner(int nbProcessors)
         {
-            _nbProcessors = nbProcessors;
+            machine = new ExecutionMachine(nbProcessors);
         }
 
         void ProgressUpdateEventHandler(object sender, ProgressUpdateEventArgs e)
@@ -22,7 +23,6 @@ namespace Runner
             string password;
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var machine = new ExecutionMachine(_nbProcessors);
             machine.RegisterNotifier(ProgressUpdateEventHandler);
             int counter = 0;
             do

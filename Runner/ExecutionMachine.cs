@@ -18,10 +18,7 @@ namespace Runner
         {
             cancel = new CancellationTokenSource();
             validator = new ZipPasswordValidator();
-            if(nbProcessors <1)
-            {
-                nbProcessors = Environment.ProcessorCount;
-            }
+            nbProcessors = Math.Max(1, nbProcessors);
             var option = new ExecutionDataflowBlockOptions
             {
                 MaxDegreeOfParallelism = nbProcessors,
