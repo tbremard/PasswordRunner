@@ -21,16 +21,16 @@ namespace Runner.UnitTest
             Assert.AreEqual(initial_value, _sut.CurrentValue);
         }
 
-        [Test]
-        public void GetNextPassword_WhenCurrentValueIsSet_ThenValid()
+        [TestCase("aaaaa", "aaaab")]
+        [TestCase("aaaaz", "aaaba")]
+        [TestCase("azzzz", "baaaa")]
+        public void GetNextPassword_WhenCurrentValueIsSet_ThenValid(string initialValue, string expectedValue)
         {
-            const string initial_value  = "aaaaa";
-            const string expected_value = "baaaa";
+            _sut.CurrentValue = initialValue;
 
-            _sut.CurrentValue = initial_value;
             var ret = _sut.GetNextPassword();
 
-            Assert.AreEqual(expected_value, ret);
+            Assert.AreEqual(expectedValue, ret);
         }
 
     }

@@ -45,7 +45,8 @@ namespace Runner
             char[] chars = new char[indexes.Length];
             for(int i=0; i<indexes.Length; i++)
             {
-                chars[i] = charset[indexes[i]];
+                int j = indexes[i];
+                chars[i] = charset[j];
             }
             string ret = new string(chars);
             counter++;
@@ -54,7 +55,22 @@ namespace Runner
 
         private void IncrementCounters()
         {
-            indexes[0]++;
+            int i = indexes.Length - 1;
+            bool raiseNext = true;
+            while (i >= 0 && raiseNext)
+            {
+                if (indexes[i] == charset.Length - 1)
+                {
+                    indexes[i] = 0;
+                    i--;
+                    raiseNext = true;
+                }
+                else
+                {
+                    indexes[i]++;
+                    raiseNext = false;
+                }
+            }
         }
     }
 
