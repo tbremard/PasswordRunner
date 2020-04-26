@@ -2,3 +2,5 @@
 /Report202*
 /Runner/bin/*
 /Runner/obj/
+/Runner.UnitTest/bin/
+/Runner.UnitTest/obj/

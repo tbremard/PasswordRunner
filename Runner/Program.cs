@@ -13,11 +13,11 @@ namespace Runner
         static void Main(string[] argv)
         {
             defaultColor = Console.ForegroundColor;
-            var provider = new IncrementalNumberProducer();
+            var passwordProducer = new IncrementalNumberProducer();
             int nbProcessors = LoadConfiguration(argv);
             var runner = new PasswordRunner(nbProcessors);
             Console.WriteLine("Start run with {0} processors", nbProcessors);
-            string password = runner.Run(provider);
+            string password = runner.Run(passwordProducer);
             if (!string.IsNullOrEmpty(password))
             {
                 SetForegroundColor(ConsoleColor.Green);

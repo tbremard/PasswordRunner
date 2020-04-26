@@ -1,17 +1,26 @@
 ﻿using System.Globalization;
+using System;
+using System.Linq;
 
 namespace Runner
 {
-    internal class IncrementalNumberProducer : IPasswordProducer
+    public class IncrementalNumberProducer : IPasswordProducer
     {
-        decimal counter = 0;
+        long counter = 0;
+
+        public long CounterValue 
+        { 
+            get => counter; 
+        }
+
         public string GetNextPassword()
         {
-            NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+            var nfi = new NumberFormatInfo();
             nfi.NumberGroupSeparator = "";
             string ret = counter.ToString("N0", nfi);
             counter++;
             return ret;
         }
     }
+
 }
