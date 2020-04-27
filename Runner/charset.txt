@@ -1,0 +1,19 @@
+﻿
+# This is the charset definition file for RainbowCrack.
+# Each charset is defined in one line, with the characters of the charset enclosed by "[" and "]".
+
+numeric            = [0123456789]
+
+alpha              = [ABCDEFGHIJKLMNOPQRSTUVWXYZ]
+alpha-numeric      = [ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789]
+
+loweralpha         = [abcdefghijklmnopqrstuvwxyz]
+loweralpha-numeric = [abcdefghijklmnopqrstuvwxyz0123456789]
+
+mixalpha           = [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]
+mixalpha-numeric   = [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789]
+
+# The charset "ascii-32-95" includes all 95 characters on standard US keyboard
+ascii-32-95                  = [ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~]
+ascii-32-65-123-4            = [ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`{|}~]
+alpha-numeric-symbol32-space = [ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_+=~`[]{}|\:;"'<>,.?/ ]

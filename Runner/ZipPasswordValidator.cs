@@ -7,17 +7,13 @@ using System.Linq;
 
 namespace Runner
 {
-    // 12456 : 45 secs
-    internal class ZipPasswordValidator : IPasswordValidator
+    public class ZipPasswordValidator : IPasswordValidator
     {
-        string file = "a_123456.zip";
-     //   string file = "a_1000.zip";
-        string directory = "d:\\zip_test\\";
         string zipPath;
         string extractPath = "d:\\zip_test\\extracted\\";
         MemoryMappedFile _mappedFile;
 
-        public ZipPasswordValidator()
+        public ZipPasswordValidator(string directory, string file)
         {
             //zipStream = File.OpenRead(zipPath);
             zipPath = Path.Combine(directory, file);

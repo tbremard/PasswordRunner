@@ -3,6 +3,7 @@
 // 2020-04-26
 
 using System;
+using System.IO;
 
 namespace Runner
 {
@@ -12,16 +13,25 @@ namespace Runner
 
         static void Main(string[] argv)
         {
+//            string file = "corona.zip";
+            string file = "baba.zip";
+//            string file = "1000.zip";
+            string directory = "..\\..\\poc_input_files\\";
             defaultColor = Console.ForegroundColor;
-            var passwordProducer = new IncrementalNumberProducer();
+            ServiceLocator.Instance.PasswordValidator = new ZipPasswordValidator(directory, file);
+            //ServiceLocator.Instance.PasswordProducer = new IncrementalNumberProducer();
+            ServiceLocator.Instance.PasswordProducer = new AlphabeticalLowerProducer();
             int nbProcessors = LoadConfiguration(argv);
             var runner = new PasswordRunner(nbProcessors);
             Console.WriteLine("Start run with {0} processors", nbProcessors);
-            string password = runner.Run(passwordProducer);
+            string password = runner.Run();
             if (!string.IsNullOrEmpty(password))
             {
                 SetForegroundColor(ConsoleColor.Green);
-                Console.WriteLine("password found: '{0}'", password);
+                string message = $"Password found: '{password}' for file: '{file}'";
+                Console.WriteLine(message);
+                string outFile = Path.Combine(directory, "result.txt");
+                File.AppendAllText(outFile, message);
                 ResetForegroundColor();
             }
             else
@@ -30,7 +40,7 @@ namespace Runner
                 Console.WriteLine("ERROR");
                 ResetForegroundColor();
             }
-            //            Console.ReadKey();
+            Console.ReadKey();
         }
 
         private static int LoadConfiguration(string[] argv)

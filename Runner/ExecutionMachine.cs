@@ -17,7 +17,7 @@ namespace Runner
         public ExecutionMachine(int nbProcessors)
         {
             cancel = new CancellationTokenSource();
-            validator = new ZipPasswordValidator();
+            validator = ServiceLocator.Instance.PasswordValidator;
             nbProcessors = Math.Max(1, nbProcessors);
             var option = new ExecutionDataflowBlockOptions
             {

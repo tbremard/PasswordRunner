@@ -18,8 +18,9 @@ namespace Runner
             Console.Write("step: {0} time: {1} sec\r", e.Step, totalSeconds);
         }
 
-        public string Run(IPasswordProducer provider)
+        public string Run()
         {
+            IPasswordProducer passProducer = ServiceLocator.Instance.PasswordProducer;
             string password;
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -27,7 +28,7 @@ namespace Runner
             int counter = 0;
             do
             {
-                password = provider.GetNextPassword();
+                password = passProducer.GetNextPassword();
                 machine.Execute(password);
                 counter++;
             } while (!machine.isPasswordFound);

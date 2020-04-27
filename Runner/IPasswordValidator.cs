@@ -1,6 +1,6 @@
 ﻿namespace Runner
 {
-    internal interface IPasswordValidator
+    public interface IPasswordValidator
     {
         bool IsValidPassword(string password);
     }

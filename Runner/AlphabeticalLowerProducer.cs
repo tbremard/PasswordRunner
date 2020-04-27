@@ -11,6 +11,10 @@ namespace Runner
                                    's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
         string _currentValue = "aaa";
 
+        public AlphabeticalLowerProducer()
+        {
+            CurrentValue = "a";
+        }
         long counter = 0;
         public long CounterValue
         {
