@@ -14,8 +14,9 @@ namespace Runner
 
         void ProgressUpdateEventHandler(object sender, ProgressUpdateEventArgs e)
         {
-            int totalSeconds = (int)e.RunTime.TotalSeconds;
-            Console.Write($"step: {e.Step}, password: '{e.Password}' time: {totalSeconds} sec\r");
+//            int totalSeconds = (int)e.RunTime.TotalSeconds;
+            string runTime = e.RunTime.ToString();
+            Console.Write($"step: {e.Step}, password: '{e.Password}' time: {runTime} sec\r");
         }
 
         public string Run()
@@ -38,8 +39,7 @@ namespace Runner
             var totalSeconds = (int)elapsed.TotalSeconds;
             Console.WriteLine("");
             Console.WriteLine("Elapsed: {0} sec", totalSeconds);
-            return machine.successPassword;
+            return machine.successPassword;//return a report instead
         }
-
     }
 }

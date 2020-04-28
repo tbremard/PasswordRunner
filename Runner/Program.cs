@@ -11,8 +11,8 @@ namespace Runner
     {
         static void Main(string[] argv)
         {
-//            string file = "corona.zip";
-            string file = "baba.zip";
+            string file = "corona.zip";
+//            string file = "baba.zip";
 //            string file = "1000.zip";
             string directory = "..\\..\\poc_input_files\\";
             ServiceLocator.Instance.PasswordValidator = new ZipPasswordValidator(directory, file);

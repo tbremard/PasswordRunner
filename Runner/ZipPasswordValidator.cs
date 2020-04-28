@@ -15,10 +15,13 @@ namespace Runner
 
         public ZipPasswordValidator(string directory, string file)
         {
-            //zipStream = File.OpenRead(zipPath);
             zipPath = Path.Combine(directory, file);
+            if(!File.Exists(zipPath))
+            {
+                throw new FileNotFoundException(zipPath);
+            }
             MapFile(zipPath);
-            ClearDirectory(extractPath);
+            Console.WriteLine($"Loaded file: {file}");
         }
 
         private void MapFile(string filePath)
@@ -26,16 +29,16 @@ namespace Runner
             _mappedFile = MemoryMappedFile.CreateFromFile(filePath, FileMode.Open);
         }
 
-        private void ClearDirectory(string path)
-        {
-            if (!Directory.Exists(path))
-                return;
-            string[] files = Directory.GetFiles(path);
-            foreach(var file in files)
-            {
-                File.Delete(file);
-            }
-        }
+        //private void ClearDirectory(string path)
+        //{
+        //    if (!Directory.Exists(path))
+        //        return;
+        //    string[] files = Directory.GetFiles(path);
+        //    foreach(var file in files)
+        //    {
+        //        File.Delete(file);
+        //    }
+        //}
 
         public bool IsValidPassword(string password)
         {
