@@ -9,15 +9,12 @@ namespace Runner
 {
     class Program
     {
-        static ConsoleColor defaultColor;
-
         static void Main(string[] argv)
         {
 //            string file = "corona.zip";
             string file = "baba.zip";
 //            string file = "1000.zip";
             string directory = "..\\..\\poc_input_files\\";
-            defaultColor = Console.ForegroundColor;
             ServiceLocator.Instance.PasswordValidator = new ZipPasswordValidator(directory, file);
             //ServiceLocator.Instance.PasswordProducer = new IncrementalNumberProducer();
             ServiceLocator.Instance.PasswordProducer = new AlphabeticalLowerProducer();
@@ -28,8 +25,8 @@ namespace Runner
             if (!string.IsNullOrEmpty(password))
             {
                 SetForegroundColor(ConsoleColor.Green);
-                string message = $"Password found: '{password}' for file: '{file}'";
-                Console.WriteLine(message);
+                string message = $"Password found: '{password}' for file: '{file}'"+Environment.NewLine;
+                Console.Write(message);
                 string outFile = Path.Combine(directory, "result.txt");
                 File.AppendAllText(outFile, message);
                 ResetForegroundColor();
@@ -64,7 +61,7 @@ namespace Runner
 
         private static void ResetForegroundColor()
         {
-            Console.ForegroundColor = defaultColor;
+            Console.ResetColor();
         }
     }
 }

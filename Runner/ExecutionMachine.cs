@@ -11,7 +11,7 @@ namespace Runner
         IPasswordValidator validator;
         ActionBlock<string> worker;
         CancellationTokenSource cancel;
-        ProgressNotifier notifier = new ProgressNotifier();
+        ProgressNotifier notifier = new ProgressNotifier(1);
         int counter = 0;
 
         public ExecutionMachine(int nbProcessors)
@@ -51,7 +51,7 @@ namespace Runner
 
         private void TryPassword(string password, IPasswordValidator validator)
         {
-            notifier.DisplayStep(counter++);
+            notifier.DisplayStep(counter++, password);
             if (validator.IsValidPassword(password))
             {
                 isPasswordFound = true;

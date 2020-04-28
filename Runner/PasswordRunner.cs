@@ -15,7 +15,7 @@ namespace Runner
         void ProgressUpdateEventHandler(object sender, ProgressUpdateEventArgs e)
         {
             int totalSeconds = (int)e.RunTime.TotalSeconds;
-            Console.Write("step: {0} time: {1} sec\r", e.Step, totalSeconds);
+            Console.Write($"step: {e.Step}, password: '{e.Password}' time: {totalSeconds} sec\r");
         }
 
         public string Run()
