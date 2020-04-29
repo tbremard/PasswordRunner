@@ -1,4 +1,4 @@
-﻿namespace Runner
+﻿namespace Runner.Interfaces
 {
     public interface IPasswordProducer
     {

@@ -4,8 +4,9 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using Ionic.Zlib;
 using System.Linq;
+using Runner.Interfaces;
 
-namespace Runner
+namespace Modules
 {
     public class ZipPasswordValidator : IPasswordValidator
     {
@@ -16,7 +17,7 @@ namespace Runner
         public ZipPasswordValidator(string directory, string file)
         {
             zipPath = Path.Combine(directory, file);
-            if(!File.Exists(zipPath))
+            if (!File.Exists(zipPath))
             {
                 throw new FileNotFoundException(zipPath);
             }
@@ -43,7 +44,7 @@ namespace Runner
         public bool IsValidPassword(string password)
         {
             return IsValidPasswordInMemory(password);
-//            return IsValidPasswordInDisk(password);
+            //            return IsValidPasswordInDisk(password);
         }
 
         public bool IsValidPasswordInDisk(string password)
@@ -57,15 +58,15 @@ namespace Runner
             {
                 zipFile.ExtractAll(extractPath);
             }
-            catch(BadPasswordException)
+            catch (BadPasswordException)
             {
                 ret = false;
             }
-            catch(ZlibException)
+            catch (ZlibException)
             {
                 ret = false;
             }
-            catch(BadCrcException)
+            catch (BadCrcException)
             {
                 ret = false;
             }

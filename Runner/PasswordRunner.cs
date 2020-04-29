@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Runner.Interfaces;
+using System;
 using System.Diagnostics;
 
 namespace Runner

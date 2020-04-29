@@ -1,4 +1,6 @@
-﻿namespace Runner
+﻿using Runner.Interfaces;
+
+namespace Runner
 {
     public class ServiceLocator
     {
