@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System;
 using System.Linq;
 using Runner.Interfaces;
 
-namespace Runner
+namespace Modules
 {
     public class AlphabeticalLowerProducer : IPasswordProducer
     {
@@ -28,7 +27,7 @@ namespace Runner
 
         public string CurrentValue
         {
-            get=>_currentValue;
+            get => _currentValue;
             set
             {
                 _currentValue = value;
@@ -94,7 +93,7 @@ namespace Runner
                     indexes[i] = 0;
                     i--;
                     carryFlag = true;
-                    if(i==-1)
+                    if (i == -1)
                     {
                         overflowFlag = true;
                     }
@@ -105,7 +104,7 @@ namespace Runner
                     carryFlag = false;
                 }
             }
-            if(overflowFlag)
+            if (overflowFlag)
             {
                 SetLength(_current_length + 1);
                 ResetIndexes();

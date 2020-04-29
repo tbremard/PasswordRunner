@@ -1,3 +1,4 @@
+using Modules;
 using NUnit.Framework;
 
 namespace Runner.UnitTest
