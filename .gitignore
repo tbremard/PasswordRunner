@@ -11,3 +11,5 @@
 /Runner.Interfaces/bin/
 /Runner.Interfaces/obj/
 /Modules/bin/
+/Modules/obj/
+/Runner.Interfaces/obj/Release/netcoreapp3.1/Runner.Interfaces.csproj.FileListAbsolute.txt
