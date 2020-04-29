@@ -1,8 +1,0 @@
-D:\prog\PasswordRunner\PasswordRunner\Runner.Interfaces\bin\Release\netcoreapp3.1\Runner.Interfaces.deps.json
-D:\prog\PasswordRunner\PasswordRunner\Runner.Interfaces\bin\Release\netcoreapp3.1\Runner.Interfaces.dll
-D:\prog\PasswordRunner\PasswordRunner\Runner.Interfaces\bin\Release\netcoreapp3.1\Runner.Interfaces.pdb
-D:\prog\PasswordRunner\PasswordRunner\Runner.Interfaces\obj\Release\netcoreapp3.1\Runner.Interfaces.csproj.CoreCompileInputs.cache
-D:\prog\PasswordRunner\PasswordRunner\Runner.Interfaces\obj\Release\netcoreapp3.1\Runner.Interfaces.AssemblyInfoInputs.cache
-D:\prog\PasswordRunner\PasswordRunner\Runner.Interfaces\obj\Release\netcoreapp3.1\Runner.Interfaces.AssemblyInfo.cs
-D:\prog\PasswordRunner\PasswordRunner\Runner.Interfaces\obj\Release\netcoreapp3.1\Runner.Interfaces.dll
-D:\prog\PasswordRunner\PasswordRunner\Runner.Interfaces\obj\Release\netcoreapp3.1\Runner.Interfaces.pdb
