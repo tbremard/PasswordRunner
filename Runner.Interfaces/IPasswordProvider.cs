@@ -3,5 +3,7 @@
     public interface IPasswordProducer
     {
         string GetNextPassword();
+        public string CurrentValue { get; set; }
+
     }
 }

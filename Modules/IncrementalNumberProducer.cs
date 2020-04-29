@@ -8,19 +8,31 @@ namespace Runner
     public class IncrementalNumberProducer : IPasswordProducer
     {
         long counter = 0;
+        public IncrementalNumberProducer()
+        {
+            UpdateValue();
+
+        }
 
         public long CounterValue 
         { 
             get => counter; 
         }
+        public string CurrentValue { get ; set ; }
+
 
         public string GetNextPassword()
         {
+            UpdateValue();
+            counter++;
+            return CurrentValue;
+        }
+
+        private void UpdateValue()
+        {
             var nfi = new NumberFormatInfo();
             nfi.NumberGroupSeparator = "";
-            string ret = counter.ToString("N0", nfi);
-            counter++;
-            return ret;
+            CurrentValue = counter.ToString("N0", nfi);
         }
     }
 
