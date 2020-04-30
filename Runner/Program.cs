@@ -6,6 +6,7 @@ using Modules;
 using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Runner
 {
@@ -15,6 +16,7 @@ namespace Runner
         static void Main(string[] argv)
         {
             LogVersion();
+            SetHighPriority();
             //            string file = "corona.zip";
             string file = "baba.zip";
             //            string file = "1000.zip";
@@ -39,6 +41,12 @@ namespace Runner
                 ResetForegroundColor();
             }
             Console.ReadKey();
+        }
+
+        private static void SetHighPriority()
+        {
+            using (Process p = Process.GetCurrentProcess())
+                p.PriorityClass = ProcessPriorityClass.High;
         }
 
         private static string LoadModules(string file)
