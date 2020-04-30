@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using Runner.Interfaces;
 
 namespace Runner
 {
@@ -51,12 +52,13 @@ namespace Runner
 
         private static string LoadModules(string file)
         {
-            string directory = "..\\..\\poc_input_files\\";
-            ServiceLocator.Instance.PasswordValidator = new ZipPasswordValidator(directory, file);
-            //ServiceLocator.Instance.PasswordProducer = new IncrementalNumberProducer();
             string binaryFile = "Modules.dll";
-            string className = "Modules.AlphabeticalLowerProducer";
-            ServiceLocator.Instance.PasswordProducer = MyFactory.CreatePasswordProducerByReflection(binaryFile, className);
+            string validatorclassName = "Modules.ZipPasswordValidator";
+            string producerClassName = "Modules.AlphabeticalLowerProducer";
+            string directory = "..\\..\\poc_input_files\\";
+            object[] args = new object[] { directory, file };
+            ServiceLocator.Instance.PasswordValidator = MyFactory.CreateInstance<IPasswordValidator>(binaryFile, validatorclassName, args);
+            ServiceLocator.Instance.PasswordProducer = MyFactory.CreateInstance<IPasswordProducer>(binaryFile, producerClassName, null);
             return directory;
         }
 

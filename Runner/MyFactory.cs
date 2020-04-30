@@ -16,13 +16,14 @@ namespace Runner
             return new AlphabeticalLowerProducer();
         }
 
-        public static IPasswordProducer CreatePasswordProducerByReflection(string binaryFile, string className)
+        public static T CreateInstance<T>(string binaryFile, string className, object[]? args)
         {
-            IPasswordProducer ret;
             var assembly = Assembly.LoadFrom(binaryFile);
-            Console.WriteLine("assembly loaded: "+assembly.FullName);
-            ret = (IPasswordProducer)assembly.CreateInstance(className);
-            Console.WriteLine("class found:" + ret.GetType().FullName);
+            bool ignoreCase = true;
+            BindingFlags bindingAttr = BindingFlags.CreateInstance;
+            Binder? binder = null;
+            var ret = (T)assembly.CreateInstance(className, ignoreCase, bindingAttr, binder, args, null, null);
+            Console.WriteLine("Class loaded: " + ret.GetType().FullName);
             return ret;
         }
     }
