@@ -2,8 +2,6 @@
 // Thierry Brémard
 // 2020-04-26
 
-using Modules;
-using Runner.Interfaces;
 using System;
 using System.Reflection;
 
@@ -11,11 +9,6 @@ namespace Runner
 {
     public static class MyFactory
     {
-        public static IPasswordProducer CreatePasswordProducer()
-        {
-            return new AlphabeticalLowerProducer();
-        }
-
         public static T CreateInstance<T>(string binaryFile, string className, object[]? args)
         {
             var assembly = Assembly.LoadFrom(binaryFile);

@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Modules\Modules.csproj" />
     <ProjectReference Include="..\Runner.Interfaces\Runner.Interfaces.csproj" />
   </ItemGroup>
 

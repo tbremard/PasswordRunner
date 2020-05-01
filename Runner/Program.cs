@@ -12,24 +12,37 @@ namespace Runner
 {
     class Program
     {
+        static string file;
+        static string binaryFile;
+        static string validatorClassName;
+        static string producerClassName;
+        static string directory;
+        static string validatorInput;
+
         static MyLogger _logger = new MyLogger();
+
+        private static void Scenario1()
+        {
+            //            file = "corona.zip";
+            file = "baba.zip";
+            //file = "1000.zip";
+            binaryFile = "Modules.dll";
+            validatorClassName = "Modules.ZipPasswordValidator";
+            producerClassName = "Modules.AlphabeticalLowerProducer";
+            //producerClassName = "Modules.IncrementalNumberProducer";
+            directory = "..\\..\\poc_input_files\\";
+
+            var fileLocation = new FileLocation { Directory = directory, File = file };
+            validatorInput = fileLocation.Serialize();
+        }
+
         static void Main(string[] argv)
         {
             LogVersion();
             SetHighPriority();
-//            string file = "corona.zip";
-//            string file = "baba.zip";
-            string file = "1000.zip";
-            string binaryFile = "Modules.dll";
-            string validatorClassName = "Modules.ZipPasswordValidator";
-//          string producerClassName = "Modules.AlphabeticalLowerProducer";
-            string producerClassName = "Modules.IncrementalNumberProducer";
-            string directory = "..\\..\\poc_input_files\\";
-            var fileLocation = new FileLocation { Directory = directory, File = file };
-            string validatorInput = fileLocation.Serialize();
-
+            Scenario1();
             var producerModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = producerClassName, Input = null };
-            var validatorModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = validatorClassName, Input= validatorInput };
+            var validatorModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = validatorClassName, Input = validatorInput };
             LoadModules(producerModule, validatorModule);
             int nbProcessors = LoadConfiguration(argv);
             var runner = new Runner(nbProcessors);
@@ -113,12 +126,5 @@ namespace Runner
 //            _logger.Info("MachineName: " + Environment.MachineName);
             //_logger.Info("OSVersion: " + Environment.OSVersion);
         }
-    }
-
-    public class ModuleDefinition
-    {
-        public string BinaryFile { get; set; }
-        public string ClassName { get; set; }
-        public string Input { get; set; }//should be Json: this is given to constructor
     }
 }

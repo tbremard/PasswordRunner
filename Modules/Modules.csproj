@@ -1,7 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\bin\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,5 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Runner.Interfaces\Runner.Interfaces.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy C:\Users\Tiry\.nuget\packages\dotnetzip\1.13.7\lib\netstandard2.0\* $(OutDir)." />
+  </Target>
 
 </Project>

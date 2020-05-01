@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Modules\Modules.csproj" />
     <ProjectReference Include="..\Runner\Runner.csproj" />
   </ItemGroup>
 

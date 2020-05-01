@@ -53,10 +53,20 @@ namespace Runner
         private void TryPassword(string password, IPasswordValidator validator)
         {
             notifier.DisplayStep(counter++, password);
-            if (validator.IsValidPassword(password))
+            try
             {
+                if (validator.IsValidPassword(password))
+                {
+                    isPasswordFound = true;
+                    successPassword = password;
+                    cancel.Cancel();
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
                 isPasswordFound = true;
-                successPassword = password;
+                successPassword = null;
                 cancel.Cancel();
             }
         }

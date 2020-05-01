@@ -1,5 +1,4 @@
-﻿using Modules;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Runner.Interfaces;
 
 namespace Runner.UnitTest
@@ -9,15 +8,6 @@ namespace Runner.UnitTest
         [SetUp]
         public void Setup()
         {
-        }
-
-        [Test]
-        public void CreatePasswordProducer_WhenCalled_ThenValid()
-        {
-
-            var ret = MyFactory.CreatePasswordProducer();
-
-            Assert.IsNotNull(ret);
         }
 
         [Test]
