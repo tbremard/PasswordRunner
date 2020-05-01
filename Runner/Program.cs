@@ -8,6 +8,7 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Runner.Interfaces;
+using System.Text.Json;
 
 namespace Runner
 {
@@ -19,9 +20,19 @@ namespace Runner
             LogVersion();
             SetHighPriority();
             //            string file = "corona.zip";
-            string file = "baba.zip";
-            //            string file = "1000.zip";
-            string directory = LoadModules(file);
+//            string file = "baba.zip";
+                        string file = "1000.zip";
+            string binaryFile = "Modules.dll";
+            string validatorClassName = "Modules.ZipPasswordValidator";
+            //string producerClassName = "Modules.AlphabeticalLowerProducer";
+            string producerClassName = "Modules.IncrementalNumberProducer";
+            string directory = "..\\..\\poc_input_files\\";
+            var fileLocation = new FileLocation { Directory = directory, File = file };
+            string validatorInput = fileLocation.Serialize();
+
+            var producerModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = producerClassName, Input = null };
+            var validatorModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = validatorClassName, Input= validatorInput };
+            LoadModules(producerModule, validatorModule);
             int nbProcessors = LoadConfiguration(argv);
             var runner = new PasswordRunner(nbProcessors);
             Console.WriteLine("Start run with {0} processors", nbProcessors);
@@ -50,16 +61,21 @@ namespace Runner
                 p.PriorityClass = ProcessPriorityClass.High;
         }
 
-        private static string LoadModules(string file)
+        private static bool LoadModules(ModuleDefinition producer, ModuleDefinition validator)
         {
-            string binaryFile = "Modules.dll";
-            string validatorclassName = "Modules.ZipPasswordValidator";
-            string producerClassName = "Modules.AlphabeticalLowerProducer";
-            string directory = "..\\..\\poc_input_files\\";
-            object[] args = new object[] { directory, file };
-            ServiceLocator.Instance.PasswordValidator = MyFactory.CreateInstance<IPasswordValidator>(binaryFile, validatorclassName, args);
-            ServiceLocator.Instance.PasswordProducer = MyFactory.CreateInstance<IPasswordProducer>(binaryFile, producerClassName, null);
-            return directory;
+            object[] validatorArgs = null;
+            object[] producerArgs = null;
+            if(producer.Input!=null)
+            {
+                producerArgs = new object[] { producer.Input };
+            }
+            if (validator.Input != null)
+            {
+                validatorArgs = new object[] { validator.Input };
+            }
+            ServiceLocator.Instance.PasswordProducer  = MyFactory.CreateInstance<IPasswordProducer>(producer.BinaryFile, producer.ClassName, producerArgs);
+            ServiceLocator.Instance.PasswordValidator = MyFactory.CreateInstance<IPasswordValidator>(validator.BinaryFile, validator.ClassName, validatorArgs);
+            return true;
         }
 
         private static int LoadConfiguration(string[] argv)
@@ -90,29 +106,21 @@ namespace Runner
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var assemblyName = assembly.GetName();
-            _logger.Info(assemblyName.CodeBase);
-            _logger.Info(assemblyName.FullName);
-            _logger.Info(assemblyName.Version.ToString());
-            _logger.Info("UserName: " + Environment.UserName);
-            _logger.Info("CommandLine: " + Environment.CommandLine);
+  //          _logger.Info(assemblyName.CodeBase);
+//            _logger.Info(assemblyName.FullName);
+            _logger.Info("Version: "+assemblyName.Version.ToString());
+//            _logger.Info("UserName: " + Environment.UserName);
+            _logger.Info("CommandLine: " + String.Join(',',Environment.GetCommandLineArgs()));
             _logger.Info("CurrentDirectory: " + Environment.CurrentDirectory);
-            _logger.Info("MachineName: " + Environment.MachineName);
-            _logger.Info("OSVersion: " + Environment.OSVersion);
+//            _logger.Info("MachineName: " + Environment.MachineName);
+            //_logger.Info("OSVersion: " + Environment.OSVersion);
         }
     }
 
-    class MyLogger
+    public class ModuleDefinition
     {
-        public void Info(string s)
-        {
-            Console.WriteLine(s);
-        }
-    }
-
-    public static class ApplicationLogging
-    {
-        public static ILoggerFactory LoggerFactory { get; } = new LoggerFactory();
-        public static ILogger CreateLogger<T>() =>
-          LoggerFactory.CreateLogger<T>();
+        public string BinaryFile { get; set; }
+        public string ClassName { get; set; }
+        public string Input { get; set; }
     }
 }

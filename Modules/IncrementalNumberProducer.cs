@@ -1,9 +1,7 @@
 ﻿using System.Globalization;
-using System;
-using System.Linq;
 using Runner.Interfaces;
 
-namespace Runner
+namespace Modules
 {
     public class IncrementalNumberProducer : IPasswordProducer
     {
@@ -11,14 +9,13 @@ namespace Runner
         public IncrementalNumberProducer()
         {
             UpdateValue();
-
         }
 
-        public long CounterValue 
-        { 
-            get => counter; 
+        public long CounterValue
+        {
+            get => counter;
         }
-        public string CurrentValue { get ; set ; }
+        public string CurrentValue { get; set; }
 
 
         public string GetNextPassword()

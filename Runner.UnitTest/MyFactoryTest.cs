@@ -1,5 +1,6 @@
 ﻿using Modules;
 using NUnit.Framework;
+using Runner.Interfaces;
 
 namespace Runner.UnitTest
 {
@@ -25,7 +26,7 @@ namespace Runner.UnitTest
             string binaryFile = "Modules.dll";
             string className = "Modules.AlphabeticalLowerProducer";
 
-            var ret = MyFactory.CreatePasswordProducerByReflection(binaryFile, className);
+            var ret = MyFactory.CreateInstance<IPasswordProducer>(binaryFile, className, null);
 
             Assert.IsNotNull(ret);
             Assert.AreEqual("a", ret.CurrentValue);

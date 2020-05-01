@@ -5,24 +5,27 @@ using System.IO.MemoryMappedFiles;
 using Ionic.Zlib;
 using System.Linq;
 using Runner.Interfaces;
+using System.Text.Json;
 
 namespace Modules
 {
+
     public class ZipPasswordValidator : IPasswordValidator
     {
         string zipPath;
         string extractPath = "d:\\zip_test\\extracted\\";
         MemoryMappedFile _mappedFile;
 
-        public ZipPasswordValidator(string directory, string file)
+        public ZipPasswordValidator(string jsonFileLocation)
         {
-            zipPath = Path.Combine(directory, file);
+            var fileLocation = JsonSerializer.Deserialize<FileLocation>(jsonFileLocation);
+            zipPath = Path.Combine(fileLocation.Directory, fileLocation.File);
             if (!File.Exists(zipPath))
             {
                 throw new FileNotFoundException(zipPath);
             }
             MapFile(zipPath);
-            Console.WriteLine($"Loaded file: {file}");
+            Console.WriteLine($"Loaded file: {fileLocation.File}");
         }
 
         private void MapFile(string filePath)
