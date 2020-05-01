@@ -16,7 +16,7 @@ def GetExecutionTime(nbProcessors):
 csvfile = open('report.csv', 'w', newline='') 
 spamwriter = csv.writer(csvfile, delimiter=',', quotechar=',', quoting=csv.QUOTE_MINIMAL)
 spamwriter.writerow(['nbProcessors', 'ExecutionTimeSec'])
-for i in range(1, 100):
+for i in range(1, 10):
     duration = GetExecutionTime(i)
     dnow = datetime.now()
     now = dnow.strftime("%H:%M:%S")

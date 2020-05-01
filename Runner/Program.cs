@@ -5,10 +5,8 @@
 using Modules;
 using System;
 using System.IO;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Runner.Interfaces;
-using System.Text.Json;
 
 namespace Runner
 {
@@ -19,12 +17,12 @@ namespace Runner
         {
             LogVersion();
             SetHighPriority();
-            //            string file = "corona.zip";
+//            string file = "corona.zip";
 //            string file = "baba.zip";
-                        string file = "1000.zip";
+            string file = "1000.zip";
             string binaryFile = "Modules.dll";
             string validatorClassName = "Modules.ZipPasswordValidator";
-            //string producerClassName = "Modules.AlphabeticalLowerProducer";
+//          string producerClassName = "Modules.AlphabeticalLowerProducer";
             string producerClassName = "Modules.IncrementalNumberProducer";
             string directory = "..\\..\\poc_input_files\\";
             var fileLocation = new FileLocation { Directory = directory, File = file };
@@ -34,13 +32,13 @@ namespace Runner
             var validatorModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = validatorClassName, Input= validatorInput };
             LoadModules(producerModule, validatorModule);
             int nbProcessors = LoadConfiguration(argv);
-            var runner = new PasswordRunner(nbProcessors);
+            var runner = new Runner(nbProcessors);
             Console.WriteLine("Start run with {0} processors", nbProcessors);
-            string password = runner.Run();
-            if (!string.IsNullOrEmpty(password))
+            var report = runner.Run();
+            if (!string.IsNullOrEmpty(report.Password))
             {
                 SetForegroundColor(ConsoleColor.Green);
-                string message = $"Password found: '{password}' for file: '{file}'" + Environment.NewLine;
+                string message = $"Password found: '{report.Password}' for file: '{file}'" + Environment.NewLine;
                 Console.Write(message);
                 string outFile = Path.Combine(directory, "result.txt");
                 File.AppendAllText(outFile, message);
@@ -121,6 +119,6 @@ namespace Runner
     {
         public string BinaryFile { get; set; }
         public string ClassName { get; set; }
-        public string Input { get; set; }
+        public string Input { get; set; }//should be Json: this is given to constructor
     }
 }
