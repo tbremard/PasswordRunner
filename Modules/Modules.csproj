@@ -4,8 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+    <PropertyGroup>
+		<!--avoid creating 'netcoreapp3.1' subdirectory in 'bin' directory-->
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
+	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\bin\Modules</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,11 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Runner.Interfaces\Runner.Interfaces.csproj" />
+    <ProjectReference Include="..\Runner.Interfaces\Modules.Interfaces.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy C:\Users\Tiry\.nuget\packages\dotnetzip\1.13.7\lib\netstandard2.0\* $(OutDir)." />
+    <Exec Command="copy C:\Users\Tiry\.nuget\packages\dotnetzip\1.13.7\lib\netstandard2.0\* $(OutDir).&#xD;&#xA;&#xD;&#xA;" />
   </Target>
 
 </Project>

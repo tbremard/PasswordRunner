@@ -26,11 +26,11 @@ namespace Runner
             //            file = "corona.zip";
             file = "baba.zip";
             //file = "1000.zip";
-            binaryFile = "Modules.dll";
+            binaryFile = "Modules\\Modules.dll";
             validatorClassName = "Modules.ZipPasswordValidator";
             producerClassName = "Modules.AlphabeticalLowerProducer";
             //producerClassName = "Modules.IncrementalNumberProducer";
-            directory = "..\\..\\poc_input_files\\";
+            directory = "..\\poc_input_files\\";
 
             var fileLocation = new FileLocation { Directory = directory, File = file };
             validatorInput = fileLocation.Serialize();
@@ -43,7 +43,10 @@ namespace Runner
             Scenario1();
             var producerModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = producerClassName, Input = null };
             var validatorModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = validatorClassName, Input = validatorInput };
-            LoadModules(producerModule, validatorModule);
+            if(!LoadModules(producerModule, validatorModule))
+            {
+                return;
+            }
             int nbProcessors = LoadConfiguration(argv);
             var runner = new Runner(nbProcessors);
             Console.WriteLine("Start run with {0} processors", nbProcessors);
@@ -84,8 +87,16 @@ namespace Runner
             {
                 validatorArgs = new object[] { validator.Input };
             }
-            ServiceLocator.Instance.PasswordProducer  = MyFactory.CreateInstance<IPasswordProducer>(producer.BinaryFile, producer.ClassName, producerArgs);
-            ServiceLocator.Instance.PasswordValidator = MyFactory.CreateInstance<IPasswordValidator>(validator.BinaryFile, validator.ClassName, validatorArgs);
+            try
+            {
+                ServiceLocator.Instance.PasswordProducer = MyFactory.CreateInstance<IPasswordProducer>(producer.BinaryFile, producer.ClassName, producerArgs);
+                ServiceLocator.Instance.PasswordValidator = MyFactory.CreateInstance<IPasswordValidator>(validator.BinaryFile, validator.ClassName, validatorArgs);
+            }
+            catch(Exception e)
+            {
+                _logger.Info(e.ToString());
+                return false;
+            }
             return true;
         }
 
