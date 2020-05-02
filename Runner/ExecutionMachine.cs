@@ -39,7 +39,6 @@ namespace Runner
         {
             FlushQueueIfNeeded();
             worker.Post(password);
-//            TryPassword(password, validator);
         }
 
         private void FlushQueueIfNeeded()

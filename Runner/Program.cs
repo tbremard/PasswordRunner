@@ -31,7 +31,6 @@ namespace Runner
             producerClassName = "Modules.AlphabeticalLowerProducer";
             //producerClassName = "Modules.IncrementalNumberProducer";
             directory = "..\\poc_input_files\\";
-
             var fileLocation = new FileLocation { Directory = directory, File = file };
             validatorInput = fileLocation.Serialize();
         }
@@ -41,7 +40,7 @@ namespace Runner
             LogVersion();
             SetHighPriority();
             Scenario1();
-            var producerModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = producerClassName, Input = null };
+            var producerModule = new ModuleDefinition()  { BinaryFile = binaryFile, ClassName = producerClassName,  Input = null };
             var validatorModule = new ModuleDefinition() { BinaryFile = binaryFile, ClassName = validatorClassName, Input = validatorInput };
             if(!LoadModules(producerModule, validatorModule))
             {
@@ -54,17 +53,15 @@ namespace Runner
             if (!string.IsNullOrEmpty(report.Password))
             {
                 SetForegroundColor(ConsoleColor.Green);
-                string message = $"Password found: '{report.Password}' for file: '{file}'" + Environment.NewLine;
+                string message = $"Password found: '{report.Password}' for file: '{file}' in {report.Duration}" + Environment.NewLine;
                 Console.Write(message);
-                string outFile = Path.Combine(directory, "result.txt");
+                string outFile = Path.Combine(directory, "Report.txt");
                 File.AppendAllText(outFile, message);
                 ResetForegroundColor();
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR");
-                ResetForegroundColor();
+                _logger.Error("Job in error");
             }
             Console.ReadKey();
         }
@@ -72,7 +69,9 @@ namespace Runner
         private static void SetHighPriority()
         {
             using (Process p = Process.GetCurrentProcess())
-                p.PriorityClass = ProcessPriorityClass.High;
+            { 
+                p.PriorityClass = ProcessPriorityClass.High; 
+            }
         }
 
         private static bool LoadModules(ModuleDefinition producer, ModuleDefinition validator)
@@ -94,7 +93,7 @@ namespace Runner
             }
             catch(Exception e)
             {
-                _logger.Info(e.ToString());
+                _logger.Error(e.ToString());
                 return false;
             }
             return true;
@@ -128,10 +127,7 @@ namespace Runner
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var assemblyName = assembly.GetName();
-  //          _logger.Info(assemblyName.CodeBase);
-//            _logger.Info(assemblyName.FullName);
             _logger.Info("Version: "+assemblyName.Version.ToString());
-//            _logger.Info("UserName: " + Environment.UserName);
             _logger.Info("CommandLine: " + String.Join(',',Environment.GetCommandLineArgs()));
             _logger.Info("CurrentDirectory: " + Environment.CurrentDirectory);
 //            _logger.Info("MachineName: " + Environment.MachineName);

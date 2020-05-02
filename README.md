@@ -4,9 +4,9 @@ Use of Service Locator for dependency injection principle
 Use of Interfaces for Producer/Consummer for Open Closed principle
 Use of ActionBlock for parallelism
 Evolution to be a generic Producer Consummer generic framework.
-==> Use of ModuleDefinition to run your own c# assembly with your own code for:
-        + Input generation ( producer / password )
-        + Check process ( consummer / validation of password)
+==> Use of ModuleDefinition to run your own c# assembly with your own code for:\
+        + Input generation ( producer / password )\
+        + Check process ( consummer / validation of password)\
 
 You can provide your own assembly with:
 Producer, which inherits from IPasswordProducer
