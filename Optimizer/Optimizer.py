@@ -3,7 +3,7 @@ import csv
 from datetime import datetime
 import os
 
-targetExe = 'D:\\prog\\PasswordRunner\\PasswordRunner\\Runner\\bin\\Release\\netcoreapp3.1\\myRunner.exe'
+targetExe = '..\\bin\\myRunner.exe'
 
 def GetExecutionTime(nbProcessors):
     start = time.time()
