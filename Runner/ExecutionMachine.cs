@@ -26,7 +26,7 @@ namespace Runner
                 CancellationToken = cancel.Token
             };
             worker = new ActionBlock<string>(
-                  password => TryPassword(password, validator),
+                  data => TryDataProcess(data, validator),
                   option);
         }
 
@@ -35,10 +35,10 @@ namespace Runner
             notifier.ProgressUpdate += handler;
         }
 
-        internal void Execute(string password)
+        internal void Execute(string data)
         {
             FlushQueueIfNeeded();
-            worker.Post(password);
+            worker.Post(data);
         }
 
         private void FlushQueueIfNeeded()
@@ -49,15 +49,15 @@ namespace Runner
             }
         }
 
-        private void TryPassword(string password, IPasswordValidator validator)
+        private void TryDataProcess(string data, IPasswordValidator validator)
         {
-            notifier.DisplayStep(counter++, password);
+            notifier.DisplayStep(counter++, data);
             try
             {
-                if (validator.IsValidPassword(password))
+                if (validator.IsValidPassword(data))
                 {
                     isPasswordFound = true;
-                    successPassword = password;
+                    successPassword = data;
                     cancel.Cancel();
                 }
             }

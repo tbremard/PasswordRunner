@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using Runner.Interfaces;
+using Modules.Interfaces;
 
 namespace Runner
 {
@@ -88,7 +89,7 @@ namespace Runner
             }
             try
             {
-                ServiceLocator.Instance.PasswordProducer = MyFactory.CreateInstance<IPasswordProducer>(producer.BinaryFile, producer.ClassName, producerArgs);
+                ServiceLocator.Instance.PasswordProducer = MyFactory.CreateInstance<IDataProducer>(producer.BinaryFile, producer.ClassName, producerArgs);
                 ServiceLocator.Instance.PasswordValidator = MyFactory.CreateInstance<IPasswordValidator>(validator.BinaryFile, validator.ClassName, validatorArgs);
             }
             catch(Exception e)

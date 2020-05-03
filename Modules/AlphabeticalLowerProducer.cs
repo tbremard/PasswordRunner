@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Runner.Interfaces;
+using Modules.Interfaces;
 
 namespace Modules
 {
-    public class AlphabeticalLowerProducer : IPasswordProducer
+    public class AlphabeticalLowerProducer : IDataProducer
     {
         protected char[] charset ={'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
@@ -62,7 +62,7 @@ namespace Modules
             }
         }
 
-        public string GetNextPassword()
+        public string GetNextData()
         {
             IncrementCounters();
             UpdateCurrentValue();

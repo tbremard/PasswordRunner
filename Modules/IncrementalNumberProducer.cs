@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
-using Runner.Interfaces;
+using Modules.Interfaces;
 
 namespace Modules
 {
-    public class IncrementalNumberProducer : IPasswordProducer
+    public class IncrementalNumberProducer : IDataProducer
     {
         long counter = 0;
         public IncrementalNumberProducer()
@@ -18,7 +18,7 @@ namespace Modules
         public string CurrentValue { get; set; }
 
 
-        public string GetNextPassword()
+        public string GetNextData()
         {
             UpdateValue();
             counter++;

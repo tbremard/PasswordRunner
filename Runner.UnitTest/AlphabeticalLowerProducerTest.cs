@@ -33,7 +33,7 @@ namespace Runner.UnitTest
         {
             _sut.CurrentValue = initialValue;
 
-            var ret = _sut.GetNextPassword();
+            var ret = _sut.GetNextData();
 
             Assert.AreEqual(expectedValue, ret);
         }

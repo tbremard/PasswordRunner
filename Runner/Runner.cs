@@ -1,4 +1,4 @@
-﻿using Runner.Interfaces;
+﻿using Modules.Interfaces;
 using System;
 using System.Diagnostics;
 
@@ -21,16 +21,15 @@ namespace Runner
 
         public RunReport Run()
         {
-            IPasswordProducer producer = ServiceLocator.Instance.PasswordProducer;
-            string password;
+            IDataProducer producer = ServiceLocator.Instance.PasswordProducer;
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             machine.RegisterNotifier(ProgressUpdateEventHandler);
             int counter = 0;
             do
             {
-                password = producer.GetNextPassword();
-                machine.Execute(password);
+                string data = producer.GetNextData();
+                machine.Execute(data);
                 counter++;
             } while (!machine.isPasswordFound);
             machine.Stop();

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Runner.Interfaces;
+using Modules.Interfaces;
 
 namespace Runner.UnitTest
 {
@@ -11,12 +11,12 @@ namespace Runner.UnitTest
         }
 
         [Test]
-        public void CreatePasswordProducerByReflection_WhenCalled_ThenValid()
+        public void CreateInstance_WhenValidClass_ThenInstanceIsCreated()
         {
             string binaryFile = "Modules.dll";
             string className = "Modules.AlphabeticalLowerProducer";
 
-            var ret = MyFactory.CreateInstance<IPasswordProducer>(binaryFile, className, null);
+            var ret = MyFactory.CreateInstance<IDataProducer>(binaryFile, className, null);
 
             Assert.IsNotNull(ret);
             Assert.AreEqual("a", ret.CurrentValue);
