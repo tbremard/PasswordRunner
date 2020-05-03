@@ -1,5 +1,4 @@
 ﻿using Modules.Interfaces;
-using Runner.Interfaces;
 
 namespace Runner
 {
@@ -7,7 +6,7 @@ namespace Runner
     {
         public static ServiceLocator Instance = new ServiceLocator();
         public IPasswordValidator PasswordValidator { get; set; }
-        public IDataProducer PasswordProducer { get; internal set; }
+        public IDataProducer DataProducer { get; set; }
 
         private ServiceLocator()
         {

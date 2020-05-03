@@ -1,4 +1,4 @@
-﻿namespace Runner.Interfaces
+﻿namespace Modules.Interfaces
 {
     public interface IPasswordValidator
     {

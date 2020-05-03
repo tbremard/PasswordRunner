@@ -6,7 +6,6 @@ using Modules;
 using System;
 using System.IO;
 using System.Diagnostics;
-using Runner.Interfaces;
 using Modules.Interfaces;
 
 namespace Runner
@@ -53,9 +52,10 @@ namespace Runner
             var report = runner.Run();
             if (!string.IsNullOrEmpty(report.Password))
             {
-                SetForegroundColor(ConsoleColor.Green);
+                //SetForegroundColor(ConsoleColor.Green);
                 string message = $"Password found: '{report.Password}' for file: '{file}' in {report.Duration}" + Environment.NewLine;
-                Console.Write(message);
+                _logger.Success(message);
+                //Console.Write(message);
                 string outFile = Path.Combine(directory, "Report.txt");
                 File.AppendAllText(outFile, message);
                 ResetForegroundColor();
@@ -89,7 +89,7 @@ namespace Runner
             }
             try
             {
-                ServiceLocator.Instance.PasswordProducer = MyFactory.CreateInstance<IDataProducer>(producer.BinaryFile, producer.ClassName, producerArgs);
+                ServiceLocator.Instance.DataProducer = MyFactory.CreateInstance<IDataProducer>(producer.BinaryFile, producer.ClassName, producerArgs);
                 ServiceLocator.Instance.PasswordValidator = MyFactory.CreateInstance<IPasswordValidator>(validator.BinaryFile, validator.ClassName, validatorArgs);
             }
             catch(Exception e)

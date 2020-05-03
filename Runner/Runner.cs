@@ -21,7 +21,7 @@ namespace Runner
 
         public RunReport Run()
         {
-            IDataProducer producer = ServiceLocator.Instance.PasswordProducer;
+            IDataProducer producer = ServiceLocator.Instance.DataProducer;
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             machine.RegisterNotifier(ProgressUpdateEventHandler);

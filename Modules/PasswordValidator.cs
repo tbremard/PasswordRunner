@@ -1,4 +1,4 @@
-﻿using Runner.Interfaces;
+﻿using Modules.Interfaces;
 
 namespace Modules
 {

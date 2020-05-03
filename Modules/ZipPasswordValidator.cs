@@ -4,8 +4,8 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using Ionic.Zlib;
 using System.Linq;
-using Runner.Interfaces;
 using System.Text.Json;
+using Modules.Interfaces;
 
 namespace Modules
 {
