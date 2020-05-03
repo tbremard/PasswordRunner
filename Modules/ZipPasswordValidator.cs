@@ -2,24 +2,20 @@
 using System;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using Ionic.Zlib;
 using System.Linq;
 using System.Text.Json;
 using Modules.Interfaces;
 
 namespace Modules
 {
-
     public class ZipPasswordValidator : IPasswordValidator
     {
-        string zipPath;
-        string extractPath = "d:\\zip_test\\extracted\\";
         MemoryMappedFile _mappedFile;
 
         public ZipPasswordValidator(string jsonFileLocation)
         {
             var fileLocation = JsonSerializer.Deserialize<FileLocation>(jsonFileLocation);
-            zipPath = Path.Combine(fileLocation.Directory, fileLocation.File);
+            string zipPath = Path.Combine(fileLocation.Directory, fileLocation.File);
             if (!File.Exists(zipPath))
             {
                 throw new FileNotFoundException(zipPath);
@@ -33,48 +29,9 @@ namespace Modules
             _mappedFile = MemoryMappedFile.CreateFromFile(filePath, FileMode.Open);
         }
 
-        //private void ClearDirectory(string path)
-        //{
-        //    if (!Directory.Exists(path))
-        //        return;
-        //    string[] files = Directory.GetFiles(path);
-        //    foreach(var file in files)
-        //    {
-        //        File.Delete(file);
-        //    }
-        //}
-
         public bool IsValidPassword(string password)
         {
             return IsValidPasswordInMemory(password);
-            //            return IsValidPasswordInDisk(password);
-        }
-
-        public bool IsValidPasswordInDisk(string password)
-        {
-            bool ret = true;
-
-            var zipFile = ZipFile.Read(zipPath);
-            zipFile.Password = password;
-
-            try
-            {
-                zipFile.ExtractAll(extractPath);
-            }
-            catch (BadPasswordException)
-            {
-                ret = false;
-            }
-            catch (ZlibException)
-            {
-                ret = false;
-            }
-            catch (BadCrcException)
-            {
-                ret = false;
-            }
-            zipFile.Dispose();
-            return ret;
         }
 
         public bool IsValidPasswordInMemory(string password)
@@ -101,19 +58,7 @@ namespace Modules
             {
                 zEntry.ExtractWithPassword(tempS, password);
             }
-            catch (BadPasswordException)
-            {
-                ret = false;
-            }
-            catch (BadCrcException)
-            {
-                ret = false;
-            }
-            catch (BadReadException)
-            {
-                ret = false;
-            }
-            catch (Exception)
+            catch //BadPasswordException, ZlibException, BadCrcException, BadReadException
             {
                 ret = false;
             }

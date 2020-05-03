@@ -6,22 +6,17 @@ namespace Runner
 {
     public class Runner
     {
-        readonly ExecutionMachine machine;
-
-        public Runner(int nbProcessors)
-        {
-            machine = new ExecutionMachine(nbProcessors);
-        }
-
         void ProgressUpdateEventHandler(object sender, ProgressUpdateEventArgs e)
         {
             string runTime = e.RunTime.ToString();
             Console.Write($"step: {e.Step}, password: '{e.Password}' time: {runTime} sec\r");
         }
 
-        public RunReport Run()
+        public RunReport Run(int nbProcessors)
         {
             IDataProducer producer = ServiceLocator.Instance.DataProducer;
+            IPasswordValidator validator = ServiceLocator.Instance.PasswordValidator;
+            var machine = new ExecutionMachine(nbProcessors, validator);
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             machine.RegisterNotifier(ProgressUpdateEventHandler);
@@ -41,11 +36,5 @@ namespace Runner
             var ret = new RunReport() { Password = machine.successPassword, Duration = elapsed};
             return ret;
         }
-    }
-
-    public class RunReport
-    {
-        public TimeSpan Duration { get; internal set; }
-        public string Password { get; internal set; }
     }
 }

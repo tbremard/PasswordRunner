@@ -9,17 +9,16 @@ namespace Runner
     {
         public bool isPasswordFound { get; private set; } = false;
         public string successPassword { get; private set; } = null;
-        IPasswordValidator validator;
         ActionBlock<string> worker;
         CancellationTokenSource cancel;
         ProgressNotifier notifier = new ProgressNotifier(1);
         int counter = 0;
 
-        public ExecutionMachine(int nbProcessors)
+        public ExecutionMachine(int nbProcessors, IPasswordValidator validator)
         {
             cancel = new CancellationTokenSource();
-            validator = ServiceLocator.Instance.PasswordValidator;
-            nbProcessors = Math.Max(1, nbProcessors);
+            const int MIN_PROCESSORS = 1;
+            nbProcessors = Math.Max(MIN_PROCESSORS, nbProcessors);
             var option = new ExecutionDataflowBlockOptions
             {
                 MaxDegreeOfParallelism = nbProcessors,

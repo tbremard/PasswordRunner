@@ -47,18 +47,15 @@ namespace Runner
                 return;
             }
             int nbProcessors = LoadConfiguration(argv);
-            var runner = new Runner(nbProcessors);
+            var runner = new Runner();
             Console.WriteLine("Start run with {0} processors", nbProcessors);
-            var report = runner.Run();
+            var report = runner.Run(nbProcessors);
             if (!string.IsNullOrEmpty(report.Password))
             {
-                //SetForegroundColor(ConsoleColor.Green);
                 string message = $"Password found: '{report.Password}' for file: '{file}' in {report.Duration}" + Environment.NewLine;
                 _logger.Success(message);
-                //Console.Write(message);
                 string outFile = Path.Combine(directory, "Report.txt");
                 File.AppendAllText(outFile, message);
-                ResetForegroundColor();
             }
             else
             {
@@ -114,16 +111,6 @@ namespace Runner
             return ret;
         }
 
-        private static void SetForegroundColor(ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-        }
-
-        private static void ResetForegroundColor()
-        {
-            Console.ResetColor();
-        }
-
         public static void LogVersion()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -131,8 +118,6 @@ namespace Runner
             _logger.Info("Version: "+assemblyName.Version.ToString());
             _logger.Info("CommandLine: " + String.Join(',',Environment.GetCommandLineArgs()));
             _logger.Info("CurrentDirectory: " + Environment.CurrentDirectory);
-//            _logger.Info("MachineName: " + Environment.MachineName);
-            //_logger.Info("OSVersion: " + Environment.OSVersion);
         }
     }
 }

@@ -8,11 +8,6 @@ namespace Runner
 {
     public class MyLogger
     {
-        Func<object, Exception, string> formatter = (x, y) => x.ToString();
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Info(string s)
         {
@@ -53,13 +48,5 @@ namespace Runner
         {
             Console.ResetColor();
         }
-
-    }
-
-    public enum LogLevel
-    {
-        Error,
-        Info,
-        Success
     }
 }

@@ -4,3 +4,6 @@ Password found: 'baba' for file: 'baba.zip' in 00:00:06.1187683
 Password found: 'baba' for file: 'baba.zip' in 00:00:06.3048447
 Password found: 'baba' for file: 'baba.zip' in 00:00:06.4097284
 Password found: 'baba' for file: 'baba.zip' in 00:00:06.7219890
+Password found: 'baba' for file: 'baba.zip' in 00:00:06.3209450
+Password found: 'baba' for file: 'baba.zip' in 00:00:06.3139869
+Password found: 'baba' for file: 'baba.zip' in 00:00:06.4229978
